@@ -9,19 +9,24 @@ import logging
 import os
 import sys
 
-# ── Đọc PORT sớm nhất có thể, trước khi import config ────────
-# Render inject PORT vào env, phải bind đúng port này
+# ── Fix Python path – đảm bảo import hoạt động mọi nơi ───────
+# Thêm thư mục chứa main.py vào sys.path
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+# ── Đọc PORT/HOST sớm từ os.environ ──────────────────────────
 _PORT = int(os.environ.get("PORT", "10000"))
 _HOST = os.environ.get("HOST", "0.0.0.0")
+_MODE = os.environ.get("BOT_MODE", "polling")
 
 from config import config
 
+# ── Logging – KHÔNG dùng FileHandler trên Render ─────────────
 logging.basicConfig(
     format="%(asctime)s │ %(levelname)-8s │ %(name)s │ %(message)s",
     level=logging.INFO,
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-    ],
+    handlers=[logging.StreamHandler(sys.stdout)],
 )
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("telegram").setLevel(logging.WARNING)
@@ -30,7 +35,6 @@ logger = logging.getLogger(__name__)
 
 
 def run_polling():
-    """Local dev."""
     from telegram.ext import (
         Application, CommandHandler,
         MessageHandler, CallbackQueryHandler, filters,
@@ -77,26 +81,21 @@ def run_polling():
 
 
 def run_webhook():
-    """Production – Render."""
     import uvicorn
-    from webhook import web_app
 
     if not config.WEBHOOK_URL:
         logger.error("❌ WEBHOOK_URL chưa cấu hình!")
         sys.exit(1)
 
     logger.info("🌐 Mode: WEBHOOK")
-    logger.info(f"   Host : {_HOST}")
-    logger.info(f"   Port : {_PORT}")
+    logger.info(f"   Host : {_HOST}:{_PORT}")
     logger.info(f"   URL  : {config.WEBHOOK_URL}")
 
-    # Dùng _PORT/_HOST đọc thẳng từ os.environ
-    # KHÔNG qua config để tránh bị cache sai giá trị
     uvicorn.run(
-        "webhook:web_app",      # ← string format để uvicorn tự reload
+        "webhook:web_app",
         host=_HOST,
-        port=_PORT,             # ← PORT từ Render env
-        log_level="info",       # info để thấy port binding trong log
+        port=_PORT,
+        log_level="info",
         access_log=True,
     )
 
@@ -106,12 +105,12 @@ def main():
         logger.error("❌ TELEGRAM_TOKEN chưa cấu hình!")
         sys.exit(1)
 
-    mode = os.environ.get("BOT_MODE", "polling")
-    logger.info(f"🤖 Crypto Futures Analyzer – Mode: {mode.upper()}")
-    logger.info(f"   PORT  : {_PORT}")
-    logger.info(f"   HOST  : {_HOST}")
+    logger.info(f"🤖 Crypto Futures Analyzer")
+    logger.info(f"   Mode : {_MODE.upper()}")
+    logger.info(f"   Port : {_PORT}")
+    logger.info(f"   Host : {_HOST}")
 
-    if mode == "webhook":
+    if _MODE == "webhook":
         run_webhook()
     else:
         run_polling()

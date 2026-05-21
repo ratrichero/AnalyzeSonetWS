@@ -11,7 +11,7 @@ services:
       - key: PYTHON_VERSION
         value: "3.11.0"
       - key: BOT_MODE
-        value: webhook
+        value: webhook          # ← QUAN TRỌNG
       - key: HOST
         value: "0.0.0.0"
       - key: PORT
@@ -20,7 +20,6 @@ services:
         value: memory
       - key: USE_API_KEY
         value: "false"
-      # Điền tay trên Render Dashboard
       - key: TELEGRAM_TOKEN
         sync: false
       - key: WEBHOOK_URL
