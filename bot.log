@@ -1,0 +1,1310 @@
+2026-05-20 19:12:12,487 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-20 19:12:12,488 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-20 19:12:12,488 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-20 19:12:12,488 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-20 19:12:12,684 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-20 19:12:13,345 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-20 19:13:03,466 │ ERROR    │ bot.handlers │ Lỗi phân tích BTCUSDT 1h: cannot import name 'analyze_trend' from partially initialized module 'analyzer.trend_analyzer' (most likely due to a circular import) (C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\trend_analyzer.py)
+Traceback (most recent call last):
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\bot\handlers.py", line 274, in _run_single_analysis
+    report = await analyze_single(symbol, tf)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\__init__.py", line 21, in analyze_single
+    from analyzer.trend_analyzer import analyze_trend
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\trend_analyzer.py", line 13, in <module>
+    from analyzer.trend_analyzer import analyze_trend
+ImportError: cannot import name 'analyze_trend' from partially initialized module 'analyzer.trend_analyzer' (most likely due to a circular import) (C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\trend_analyzer.py)
+2026-05-20 19:15:29,438 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-20 19:15:35,169 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-20 19:15:35,170 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-20 19:15:35,170 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-20 19:15:35,170 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-20 19:15:35,369 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-20 19:15:36,043 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-20 19:50:18,685 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-20 19:50:18,738 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001A9FFEC8590>
+2026-05-20 19:51:08,789 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-20 19:51:08,790 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-20 19:51:08,790 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-20 19:51:08,790 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-20 19:51:08,990 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-20 19:51:09,730 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-20 20:08:45,727 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-20 20:08:45,727 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-20 20:08:45,728 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-20 20:08:45,728 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-20 20:08:45,931 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-20 20:08:46,585 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-20 20:09:10,804 │ ERROR    │ bot.handlers │ Lỗi phân tích SOLUSDT 1h: TradeSetup.__init__() got an unexpected keyword argument 'range_low'
+Traceback (most recent call last):
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\bot\handlers.py", line 274, in _run_single_analysis
+    report = await analyze_single(symbol, tf)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\__init__.py", line 36, in analyze_single
+    return generate_report(
+        symbol, timeframe, df,
+        trend, momentum, volatility, volume, sr
+    )
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\report_generator.py", line 147, in generate_report
+    setup = _calc_neutral_single_setup(close, atr14, sr)
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\report_generator.py", line 227, in _calc_neutral_single_setup
+    return TradeSetup(
+        direction=direction,
+    ...<7 lines>...
+        price_position=round(price_pos, 3),
+    )
+TypeError: TradeSetup.__init__() got an unexpected keyword argument 'range_low'
+2026-05-20 20:09:31,581 │ ERROR    │ bot.handlers │ Lỗi phân tích SOLUSDT 4h: TradeSetup.__init__() got an unexpected keyword argument 'range_low'
+Traceback (most recent call last):
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\bot\handlers.py", line 274, in _run_single_analysis
+    report = await analyze_single(symbol, tf)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\__init__.py", line 36, in analyze_single
+    return generate_report(
+        symbol, timeframe, df,
+        trend, momentum, volatility, volume, sr
+    )
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\report_generator.py", line 147, in generate_report
+    setup = _calc_neutral_single_setup(close, atr14, sr)
+  File "C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\analyzer\report_generator.py", line 227, in _calc_neutral_single_setup
+    return TradeSetup(
+        direction=direction,
+    ...<7 lines>...
+        price_position=round(price_pos, 3),
+    )
+TypeError: TradeSetup.__init__() got an unexpected keyword argument 'range_low'
+2026-05-20 20:10:27,592 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-20 20:10:27,647 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001EDC8CD6CF0>
+2026-05-20 20:13:13,143 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-20 20:13:13,143 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-20 20:13:13,144 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-20 20:13:13,144 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-20 20:13:13,409 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-20 20:13:14,040 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-20 20:40:46,178 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-20 20:40:46,232 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001D84EC45E80>
+2026-05-20 20:57:18,009 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-20 20:57:18,009 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-20 20:57:18,010 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-20 20:57:18,010 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-20 20:57:18,285 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-20 20:57:18,966 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-20 22:06:25,699 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-20 22:06:25,821 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000002495A6B5E80>
+2026-05-21 02:04:24,313 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-21 02:04:24,314 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-21 02:04:24,315 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-21 02:04:24,315 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-21 02:04:24,576 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-21 02:04:25,253 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-21 02:11:00,670 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-21 02:11:00,732 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001DA373D4C20>
+2026-05-21 02:11:05,591 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-21 02:11:05,591 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-21 02:11:05,591 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-21 02:11:05,592 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-21 02:11:05,898 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-21 02:11:06,587 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-21 02:19:19,745 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-21 02:19:19,803 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001422B837230>
+2026-05-21 02:19:28,027 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-21 02:19:28,028 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-21 02:19:28,028 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-21 02:19:28,029 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-21 02:19:28,329 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-21 02:19:28,989 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-21 02:22:05,366 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-21 02:22:05,423 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001AA8C0F7E00>
+2026-05-21 02:22:26,683 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-21 02:22:26,684 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-21 02:22:26,685 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-21 02:22:26,685 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-21 02:22:27,033 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-21 02:22:27,657 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-21 02:34:15,770 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-21 02:34:15,836 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001E34C4C7E00>
+2026-05-21 02:34:21,819 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-21 02:34:21,820 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-21 02:34:21,821 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-21 02:34:21,821 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-21 02:34:22,162 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-21 02:34:22,869 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-21 13:37:00,044 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:37:05,494 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:37:11,929 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:37:19,855 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:37:27,036 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:37:38,427 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:37:54,922 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:09,002 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-21 13:39:09,004 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-21 13:39:09,005 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-21 13:39:09,006 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-21 13:39:09,636 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-21 13:39:10,325 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-21 13:39:11,146 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:15,369 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:16,580 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:21,295 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:23,007 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:28,465 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:30,924 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:34,510 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:38,097 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:43,784 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:49,504 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:39:57,750 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:40:05,980 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:40:17,998 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:40:22,203 │ ERROR    │ telegram.ext.Application │ No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 161, in network_retry_loop
+    await do_action()
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 154, in do_action
+    action_cb_task.result()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 672, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 4865, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 704, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\ext\_extbot.py", line 370, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\_bot.py", line 733, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\Admin\miniconda3\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-05-21 13:40:37,530 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\crypto_analyzer\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-21 13:47:22,846 │ INFO     │ __main__ │ 🚀 Khởi động Crypto Futures Analyzer Bot...
+2026-05-21 13:47:22,848 │ INFO     │ __main__ │    Cache backend: memory
+2026-05-21 13:47:22,848 │ INFO     │ __main__ │    API key mode:  OFF
+2026-05-21 13:47:22,849 │ INFO     │ cache.cache_manager │ Using in-memory cache backend
+2026-05-21 13:47:23,488 │ INFO     │ __main__ │ 📡 Polling started...
+2026-05-21 13:47:24,235 │ INFO     │ __main__ │ ✅ Bot đã sẵn sàng!
+2026-05-21 13:47:53,102 │ ERROR    │ asyncio │ Task was destroyed but it is pending!
+task: <Task pending name='Task-5' coro=<_cache_cleanup_task() running at C:\BotCoin\Analyzer-Sonet46\main.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2026-05-21 13:47:53,158 │ ERROR    │ asyncio │ Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001F2C16E8830>

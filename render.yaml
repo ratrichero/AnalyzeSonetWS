@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: crypto-futures-analyzer
+    runtime: python
+    region: singapore
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /health
+    envVars:
+      - key: BOT_MODE
+        value: webhook
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      - key: CACHE_BACKEND
+        value: memory
+      - key: USE_API_KEY
+        value: "false"
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      # Điền tay trên dashboard vì có thông tin nhạy cảm
+      - key: TELEGRAM_TOKEN
+        sync: false
+      - key: WEBHOOK_URL
+        sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
