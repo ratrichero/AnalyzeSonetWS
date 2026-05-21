@@ -2,9 +2,17 @@
 FastAPI webhook server cho Render.
 """
 
+# ── Fix Python path TRƯỚC MỌI IMPORT KHÁC ────────────────────
+import os
+import sys
+
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+# ─────────────────────────────────────────────────────────────
+
 import asyncio
 import logging
-import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, HTTPException, status
@@ -16,14 +24,6 @@ from telegram.ext import (
 )
 
 from config import config
-
-import os
-import sys
-
-# Fix path
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-if ROOT_DIR not in sys.path:
-    sys.path.insert(0, ROOT_DIR)
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,6 @@ async def lifespan(app: FastAPI):
     await _ptb_app.initialize()
     await _ptb_app.start()
 
-    # Đăng ký webhook
     webhook_full_url = (
         f"{config.WEBHOOK_URL.rstrip('/')}"
         f"/webhook/{config.WEBHOOK_SECRET}"
@@ -72,7 +71,6 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"❌ Set webhook thất bại: {e}")
 
-    # Cache cleanup
     from cache.cache_manager import create_cache_manager
     cache = create_cache_manager(config)
 
@@ -87,10 +85,10 @@ async def lifespan(app: FastAPI):
                 logger.error(f"Cache cleanup: {e}")
 
     asyncio.create_task(_cleanup())
+    logger.info("✅ Server sẵn sàng!")
 
     yield
 
-    # Shutdown
     logger.info("🛑 Shutdown...")
     try:
         await _ptb_app.bot.delete_webhook()
