@@ -1,12 +1,18 @@
 """
 Entry point.
-BOT_MODE=polling  → dev local, không cần domain
+BOT_MODE=polling  → dev local
 BOT_MODE=webhook  → production trên Render
 """
 
 import asyncio
 import logging
+import os
 import sys
+
+# ── Đọc PORT sớm nhất có thể, trước khi import config ────────
+# Render inject PORT vào env, phải bind đúng port này
+_PORT = int(os.environ.get("PORT", "10000"))
+_HOST = os.environ.get("HOST", "0.0.0.0")
 
 from config import config
 
@@ -15,7 +21,6 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler("bot.log", encoding="utf-8"),
     ],
 )
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -25,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 
 def run_polling():
-    """Local dev – không cần domain, không cần Render."""
+    """Local dev."""
     from telegram.ext import (
         Application, CommandHandler,
         MessageHandler, CallbackQueryHandler, filters,
@@ -36,7 +41,7 @@ def run_polling():
     )
     from cache.cache_manager import create_cache_manager
 
-    logger.info("🔄 Mode: POLLING (local dev)")
+    logger.info("🔄 Mode: POLLING")
     cache = create_cache_manager(config)
 
     app = (
@@ -61,7 +66,7 @@ def run_polling():
                 try:
                     n = await cache.clear_expired()
                     if n > 0:
-                        logger.info(f"Cache: xóa {n} entries hết hạn")
+                        logger.info(f"Cache cleanup: {n} entries")
                 except Exception as e:
                     logger.error(f"Cache cleanup: {e}")
         asyncio.create_task(_cleanup())
@@ -72,24 +77,27 @@ def run_polling():
 
 
 def run_webhook():
-    """Production – chạy FastAPI + uvicorn trên Render."""
+    """Production – Render."""
     import uvicorn
     from webhook import web_app
 
     if not config.WEBHOOK_URL:
-        logger.error("❌ WEBHOOK_URL chưa cấu hình trong .env")
+        logger.error("❌ WEBHOOK_URL chưa cấu hình!")
         sys.exit(1)
 
-    logger.info("🌐 Mode: WEBHOOK (production)")
-    logger.info(f"   WEBHOOK_URL : {config.WEBHOOK_URL}")
-    logger.info(f"   Listen      : {config.HOST}:{config.PORT}")
+    logger.info("🌐 Mode: WEBHOOK")
+    logger.info(f"   Host : {_HOST}")
+    logger.info(f"   Port : {_PORT}")
+    logger.info(f"   URL  : {config.WEBHOOK_URL}")
 
+    # Dùng _PORT/_HOST đọc thẳng từ os.environ
+    # KHÔNG qua config để tránh bị cache sai giá trị
     uvicorn.run(
-        web_app,
-        host=config.HOST,
-        port=config.PORT,
-        log_level="warning",
-        access_log=False,
+        "webhook:web_app",      # ← string format để uvicorn tự reload
+        host=_HOST,
+        port=_PORT,             # ← PORT từ Render env
+        log_level="info",       # info để thấy port binding trong log
+        access_log=True,
     )
 
 
@@ -98,11 +106,12 @@ def main():
         logger.error("❌ TELEGRAM_TOKEN chưa cấu hình!")
         sys.exit(1)
 
-    logger.info(f"🤖 Crypto Futures Analyzer")
-    logger.info(f"   Mode  : {config.BOT_MODE.upper()}")
-    logger.info(f"   Cache : {config.CACHE_BACKEND}")
+    mode = os.environ.get("BOT_MODE", "polling")
+    logger.info(f"🤖 Crypto Futures Analyzer – Mode: {mode.upper()}")
+    logger.info(f"   PORT  : {_PORT}")
+    logger.info(f"   HOST  : {_HOST}")
 
-    if config.BOT_MODE == "webhook":
+    if mode == "webhook":
         run_webhook()
     else:
         run_polling()
