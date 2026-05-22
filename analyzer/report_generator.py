@@ -233,6 +233,7 @@ def generate_report(
     close = float(df["close"].iloc[-1])
     atr14 = float(calc_atr(df, 14).iloc[-1])
 
+    # ── Composite Score ────────────────────────────────────────
     weights = {
         "trend":      0.30,
         "momentum":   0.25,
@@ -240,25 +241,23 @@ def generate_report(
         "volume":     0.20,
         "sr":         0.10,
     }
-    composite = sum(
-        getattr(locals()[k], 'score', 0) * w
-        for k, w in weights.items()
-        for locals_val in [locals()]
+    
+    # Đơn giản hóa - tính trực tiếp
+    composite = (
+        trend.score      * weights["trend"] +
+        momentum.score   * weights["momentum"] +
+        volatility.score * weights["volatility"] +
+        volume.score     * weights["volume"] +
+        sr.score         * weights["sr"]
     )
-    composite = round(
-        max(-1.0, min(1.0,
-            trend.score      * weights["trend"] +
-            momentum.score   * weights["momentum"] +
-            volatility.score * weights["volatility"] +
-            volume.score     * weights["volume"] +
-            sr.score         * weights["sr"]
-        )), 4
-    )
+    composite = round(max(-1.0, min(1.0, composite)), 4)
 
+    # ── Xác định hướng ────────────────────────────────────────
     if composite > 0.25:    direction = "LONG"
     elif composite < -0.25: direction = "SHORT"
     else:                   direction = "NEUTRAL"
 
+    # ── Trade Setup ────────────────────────────────────────────
     if direction == "NEUTRAL":
         setup = _calc_neutral_single_setup(close, atr14, sr, composite)
     else:
