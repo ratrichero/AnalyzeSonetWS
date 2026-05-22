@@ -30,15 +30,15 @@ class Config:
     CACHE_BACKEND: str = os.getenv("CACHE_BACKEND", "memory")
     REDIS_URL: str     = os.getenv("REDIS_URL", "redis://localhost:6379/0")
     CACHE_TTL: dict = {
-        "15m": 5 * 60,
-        "1h":  15 * 60,
-        "4h":  30 * 60,
-        "1d":  60 * 60,
-    }
+    "15m": 3 * 60,    # 3 phút (thay vì 5)
+    "1h":  5 * 60,    # 5 phút (thay vì 15)
+    "4h":  10 * 60,   # 10 phút (thay vì 30)
+    "1d":  15 * 60,   # 15 phút (thay vì 60)
+}
 
     # ── Phân tích ─────────────────────────────────────────────
     TIMEFRAMES: list = ["15m", "1h", "4h", "1d"]
-    KLINE_LIMIT: int = 200
+    KLINE_LIMIT: int = 100
     DEFAULT_COINS: list = [
         "BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "XRPUSDT",
         "DOGEUSDT", "ADAUSDT", "AVAXUSDT", "LINKUSDT", "DOTUSDT",
@@ -61,7 +61,7 @@ class Config:
     RR_CAP: float    = 8.0
 
     # ── Rate Limit ────────────────────────────────────────────
-    MAX_CONCURRENT_REQUESTS: int = 5
+    MAX_CONCURRENT_REQUESTS: int = 3
     REQUEST_DELAY_SECONDS: float = 0.2
 
 config = Config()

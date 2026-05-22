@@ -283,3 +283,17 @@ async def telegram_webhook(secret: str, request: Request):
     asyncio.create_task(_process_update_safe(update))
 
     return JSONResponse(content={"ok": True})
+
+import psutil
+
+@web_app.get("/stats")
+async def stats():
+    """Debug endpoint - xem memory usage."""
+    process = psutil.Process()
+    mem = process.memory_info()
+    
+    return JSONResponse(content={
+        "memory_mb": round(mem.rss / 1024 / 1024, 2),
+        "memory_pct": round(process.memory_percent(), 2),
+        "cpu_pct": round(process.cpu_percent(interval=0.1), 2),
+    })
