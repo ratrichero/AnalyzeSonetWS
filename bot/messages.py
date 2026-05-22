@@ -1,46 +1,49 @@
 """
 Format tất cả messages gửi lên Telegram.
-Hỗ trợ MarkdownV2, tự động escape.
-Số thập phân hiển thị đầy đủ, không làm tròn sai.
+Hỗ trợ Markdown, số thập phân đầy đủ.
 """
 
-from analyzer.report_generator import FullReport, MTFReport, TradeSetup
 from config import config
 
 
 # ══════════════════════════════════════════════════════════════════════
-# HELPER
+# HELPERS
 # ══════════════════════════════════════════════════════════════════════
 
-def _fmt(v: float, decimals: int = None) -> str:
-    """Format số – tự chọn độ chính xác phù hợp."""
-    if v == 0:
-        return "0"
-    if decimals is not None:
-        return f"{v:.{decimals}f}"
-    if v >= 10000:   return f"{v:,.2f}"
-    if v >= 1000:    return f"{v:.3f}"
-    if v >= 100:     return f"{v:.4f}"
-    if v >= 1:       return f"{v:.5f}"
-    if v >= 0.01:    return f"{v:.6f}"
-    if v >= 0.0001:  return f"{v:.8f}"
+def _fmt(v: float) -> str:
+    """Format số – giữ đủ độ chính xác, không làm tròn sai."""
+    if v == 0:        return "0"
+    if v >= 10000:    return f"{v:,.2f}"
+    if v >= 1000:     return f"{v:.3f}"
+    if v >= 100:      return f"{v:.4f}"
+    if v >= 1:        return f"{v:.5f}"
+    if v >= 0.01:     return f"{v:.6f}"
+    if v >= 0.0001:   return f"{v:.8f}"
     return f"{v:.10g}"
+
+
+def _pct(a: float, b: float) -> str:
+    """Tính % chênh lệch giữa 2 giá."""
+    if b < 1e-12:
+        return "0.00%"
+    return f"{abs(a - b) / b * 100:.2f}%"
 
 
 def _score_bar(score: float, width: int = 10) -> str:
     """Hiển thị score dạng progress bar."""
-    pct     = (score + 1) / 2       # -1..1 → 0..1
-    filled  = round(pct * width)
-    empty   = width - filled
-    bar     = "█" * filled + "░" * empty
-    arrow   = "🟢" if score > 0.2 else "🔴" if score < -0.2 else "⚪"
-    return f"{arrow} [{bar}] {score:+.2f}"
+    pct    = (score + 1) / 2
+    filled = round(pct * width)
+    empty  = width - filled
+    bar    = "█" * filled + "░" * empty
+    emoji  = "🟢" if score > 0.2 else "🔴" if score < -0.2 else "⚪"
+    return f"{emoji} [{bar}] {score:+.2f}"
 
 
 def _direction_emoji(d: str) -> str:
     d = d.upper()
     if "LONG"  in d: return "🟢 LONG"
     if "SHORT" in d: return "🔴 SHORT"
+    if "WAIT"  in d: return "⏳ WAIT"
     return "⚪ NEUTRAL"
 
 
@@ -57,11 +60,12 @@ def _signal_emoji(s: str) -> str:
 def welcome_message() -> str:
     return (
         "🤖 *Crypto Futures Analyzer Bot*\n\n"
-        "Chào mừng! Bot phân tích kỹ thuật Futures Binance.\n\n"
+        "Phân tích kỹ thuật Futures Binance.\n\n"
         "*Chức năng:*\n"
         "📊 *Phân tích Coin* – Chi tiết theo từng khung giờ\n"
         "🎯 *Khuyến nghị* – Tổng hợp đa khung + Entry/SL/TP\n\n"
-        "Nhập tên coin (VD: `BTCUSDT`, `ETH`) hoặc chọn từ menu."
+        "Nhập tên coin VD: `BTC`, `ETH`, `SOL`\n"
+        "hoặc chọn từ danh sách bên dưới."
     )
 
 
@@ -69,16 +73,18 @@ def help_message() -> str:
     return (
         "📖 *Hướng dẫn sử dụng*\n\n"
         "*1. Phân tích Coin*\n"
-        "   • Gõ tên coin VD: `BTC` hoặc `BTCUSDT`\n"
-        "   • Hoặc nhấn *Coin phổ biến* để chọn\n"
-        "   • Chọn khung giờ: 15m / 1h / 4h / 1D\n\n"
-        "*2. Khuyến nghị*\n"
+        "   • Gõ tên coin VD: `BTC`, `SOLUSDT`\n"
+        "   • Chọn khung giờ: 15m / 1h / 4h / 1D\n"
+        "   • Nhận báo cáo 5 nhóm chỉ báo\n\n"
+        "*2. Khuyến nghị MTF*\n"
         "   • Phân tích đồng thời tất cả khung\n"
-        "   • Đưa ra hướng LONG / SHORT / NEUTRAL\n"
-        "   • Kèm Entry, SL, TP1, TP2 cụ thể\n\n"
-        "*Chú ý:*\n"
-        "⚠️ Bot chỉ phân tích kỹ thuật, KHÔNG phải tư vấn đầu tư.\n"
-        "💡 Luôn quản lý rủi ro và chỉ dùng vốn có thể chấp nhận mất."
+        "   • Hướng LONG / SHORT / NEUTRAL\n"
+        "   • Entry, SL, TP1, TP2 cụ thể\n\n"
+        "*Lưu ý Range Trading (NEUTRAL):*\n"
+        "   • Luôn có 2 setup: Long tại Support, Short tại Resistance\n"
+        "   • Đặt *Limit Order* tại Entry – KHÔNG Market Order\n"
+        "   • Khi 1 lệnh khớp → Cancel lệnh còn lại\n\n"
+        "⚠️ _Chỉ mang tính tham khảo – Tự chịu rủi ro_"
     )
 
 
@@ -99,6 +105,7 @@ def format_single_report(report) -> str:
         "",
         "📋 *KẾT QUẢ PHÂN TÍCH 5 NHÓM*",
         "",
+        # ── Nhóm 1: Xu hướng ──
         f"1️⃣ *Xu hướng (Trend)*",
         f"   {_signal_emoji(r.trend.signal)} {r.trend.signal}",
         f"   Score: {_score_bar(r.trend.score)}",
@@ -107,6 +114,7 @@ def format_single_report(report) -> str:
         f"   {r.trend.details['adx']['note']}",
         f"   {r.trend.details['ichimoku']['note']}",
         "",
+        # ── Nhóm 2: Động lượng ──
         f"2️⃣ *Động lượng (Momentum)*",
         f"   {_signal_emoji(r.momentum.signal)} {r.momentum.signal}",
         f"   Score: {_score_bar(r.momentum.score)}",
@@ -115,12 +123,14 @@ def format_single_report(report) -> str:
         f"   {r.momentum.details['cci']['note']}",
         f"   {r.momentum.details['williams_r']['note']}",
         "",
+        # ── Nhóm 3: Biến động ──
         f"3️⃣ *Biến động (Volatility)*",
         f"   Score: {_score_bar(r.volatility.score)}",
-        f"   ATR: {_fmt(r.volatility.atr_value)} ({r.volatility.atr_pct:.3f}% giá)",
+        f"   ATR: `{_fmt(r.volatility.atr_value)}` ({r.volatility.atr_pct:.3f}% giá)",
         f"   {r.volatility.details['bollinger']['note']}",
         f"   {r.volatility.details['squeeze']['note']}",
         "",
+        # ── Nhóm 4: Khối lượng ──
         f"4️⃣ *Khối lượng (Volume)*",
         f"   {_signal_emoji(r.volume.signal)} {r.volume.signal}",
         f"   Score: {_score_bar(r.volume.score)}",
@@ -129,6 +139,7 @@ def format_single_report(report) -> str:
         f"   {r.volume.details['vwap']['note']}",
         f"   {r.volume.details['cmf']['note']}",
         "",
+        # ── Nhóm 5: S/R ──
         f"5️⃣ *Hỗ trợ / Kháng cự*",
         f"   Score: {_score_bar(r.sr.score)}",
         f"   {r.sr.details['key_levels']['note']}",
@@ -137,7 +148,7 @@ def format_single_report(report) -> str:
         "━━━━━━━━━━━━━━━━━━━━━━━━━━━",
         f"⭐ *TỔNG HỢP [{tf}]*",
         f"   Composite Score: {_score_bar(r.composite_score)}",
-        f"   Tín hiệu thị trường: *{_direction_emoji(ts.direction)}*",
+        f"   Tín hiệu: *{_direction_emoji(ts.direction)}*",
         "",
     ]
 
@@ -145,7 +156,7 @@ def format_single_report(report) -> str:
     if ts.direction == "NEUTRAL" and ts.long_setup and ts.short_setup:
         lines += _format_neutral_dual_setup(ts, r.current_price)
     elif ts.direction in ("LONG", "SHORT"):
-        lines += _format_directional_setup(ts)
+        lines += _format_directional_setup(ts, r.current_price)
     else:
         lines += _format_wait_setup(ts)
 
@@ -157,86 +168,116 @@ def format_single_report(report) -> str:
     return "\n".join(lines)
 
 
+# ══════════════════════════════════════════════════════════════════════
+# SETUP FORMATTERS
+# ══════════════════════════════════════════════════════════════════════
+
 def _format_neutral_dual_setup(ts, current_price: float) -> list:
-    """Hiển thị 2 setup Long + Short khi NEUTRAL."""
+    """
+    Hiển thị 2 setup Long + Short cho NEUTRAL/Range Trading.
+    Entry = tại biên S/R, không phải giá hiện tại.
+    Hiển thị trạng thái: SẴN SÀNG VÀO / Chờ giá về.
+    """
     ls = ts.long_setup
     ss = ts.short_setup
 
-    # Progress bar vị trí giá
-    pos       = ts.price_position if ts.price_position >= 0 else 0.5
+    dist_to_sup = (current_price - ts.range_low)  / current_price * 100
+    dist_to_res = (ts.range_high - current_price) / current_price * 100
+    range_pct   = (ts.range_high - ts.range_low)  / current_price * 100
+    range_mid   = (ts.range_high + ts.range_low)  / 2
+    pos_pct     = ts.price_position * 100
+
+    # Progress bar
     bar_width = 18
-    filled    = min(round(pos * bar_width), bar_width - 1)
+    filled    = min(round(ts.price_position * bar_width), bar_width - 1)
     bar       = "▱" * filled + "◆" + "▱" * (bar_width - 1 - filled)
 
-    # Label ưu tiên
-    if ts.recommended == "LONG":
-        priority_label = "✅ *Ưu tiên LONG* (tín hiệu thiên tăng)"
-    elif ts.recommended == "SHORT":
-        priority_label = "✅ *Ưu tiên SHORT* (tín hiệu thiên giảm)"
-    else:
-        priority_label = "⚖️ *Cân bằng* – cả 2 setup có giá trị ngang nhau"
+    # Trạng thái từng setup
+    long_status  = (
+        "🟢 *SẴN SÀNG VÀO*"
+        if dist_to_sup <= 0.5
+        else f"⏳ Chờ giá về (còn ↓{dist_to_sup:.2f}%)"
+    )
+    short_status = (
+        "🔴 *SẴN SÀNG VÀO*"
+        if dist_to_res <= 0.5
+        else f"⏳ Chờ giá lên (còn ↑{dist_to_res:.2f}%)"
+    )
 
-    # Tính % từng mức
-    def pct(a, b):
-        return abs(a - b) / b * 100 if b > 1e-12 else 0.0
+    # Priority
+    if ts.recommended == "LONG":
+        priority = "✅ Ưu tiên *LONG* (tín hiệu thiên tăng)"
+    elif ts.recommended == "SHORT":
+        priority = "✅ Ưu tiên *SHORT* (tín hiệu thiên giảm)"
+    else:
+        priority = "⚖️ Cân bằng – 2 setup ngang nhau"
 
     lines = [
-        "📍 *SETUP GIAO DỊCH – RANGE TRADING*",
+        "📍 *SETUP – RANGE TRADING*",
         "",
-        f"   🔴 Resistance: `{_fmt(ts.range_high)}`",
-        f"   [{bar}]  {pos*100:.0f}% trong range",
-        f"   💰 Giá hiện tại: `{_fmt(current_price)}`",
-        f"   🟢 Support:    `{_fmt(ts.range_low)}`",
-        f"   Độ rộng range: `{(ts.range_high - ts.range_low) / current_price * 100:.2f}%`",
+        f"   🔴 Resistance : `{_fmt(ts.range_high)}`  (+{dist_to_res:.2f}%)",
+        f"   [{bar}]  {pos_pct:.0f}%",
+        f"   💰 Giá htại  : `{_fmt(current_price)}`",
+        f"   🟢 Support   : `{_fmt(ts.range_low)}`  (-{dist_to_sup:.2f}%)",
+        f"   Range: `{range_pct:.2f}%` | Mid: `{_fmt(range_mid)}`",
         "",
-        f"   {priority_label}",
+        f"   {priority}",
         "",
         # ── LONG Setup ──
-        "   ─────────────────────────",
-        f"   🟢 *LONG – Vào tại biên dưới (Support)*",
-        f"   Confidence: `{ls.confidence:.1f}%`",
-        f"   Entry : `{_fmt(ls.entry)}`  "
-        f"(↓ {pct(current_price, ls.entry):.2f}% từ giá hiện tại)",
-        f"   SL    : `{_fmt(ls.sl)}`    "
-        f"(↓ {pct(ls.entry, ls.sl):.2f}%)",
-        f"   TP1   : `{_fmt(ls.tp1)}`  "
-        f"(↑ {pct(ls.tp1, ls.entry):.2f}%)  R/R 1:1",
-        f"   TP2   : `{_fmt(ls.tp2)}`  "
-        f"(↑ {pct(ls.tp2, ls.entry):.2f}%)  R/R 1:{ls.rr_ratio}",
+        "   ━━━━━━━━━━━━━━━━━━━━━━━",
+        f"   🟢 *LONG*  |  {long_status}",
+        f"   Đặt Limit Order TẠI Support:",
+        f"   Entry : `{_fmt(ls.entry)}`",
+        f"   SL    : `{_fmt(ls.sl)}`"
+        f"  (↓ {_pct(ls.entry, ls.sl)} | -{_fmt(abs(ls.entry - ls.sl))})",
+        f"   TP1   : `{_fmt(ls.tp1)}`"
+        f"  (↑ {_pct(ls.tp1, ls.entry)}) – Midpoint",
+        f"   TP2   : `{_fmt(ls.tp2)}`"
+        f"  (↑ {_pct(ls.tp2, ls.entry)}) – Resistance",
+        f"   R/R: `1:{ls.rr_ratio}`  |  Conf: `{ls.confidence:.0f}%`",
         f"   ⛔ {ls.invalidation}",
         "",
         # ── SHORT Setup ──
-        "   ─────────────────────────",
-        f"   🔴 *SHORT – Vào tại biên trên (Resistance)*",
-        f"   Confidence: `{ss.confidence:.1f}%`",
-        f"   Entry : `{_fmt(ss.entry)}`  "
-        f"(↑ {pct(ss.entry, current_price):.2f}% từ giá hiện tại)",
-        f"   SL    : `{_fmt(ss.sl)}`    "
-        f"(↑ {pct(ss.sl, ss.entry):.2f}%)",
-        f"   TP1   : `{_fmt(ss.tp1)}`  "
-        f"(↓ {pct(ss.entry, ss.tp1):.2f}%)  R/R 1:1",
-        f"   TP2   : `{_fmt(ss.tp2)}`  "
-        f"(↓ {pct(ss.entry, ss.tp2):.2f}%)  R/R 1:{ss.rr_ratio}",
+        "   ━━━━━━━━━━━━━━━━━━━━━━━",
+        f"   🔴 *SHORT*  |  {short_status}",
+        f"   Đặt Limit Order TẠI Resistance:",
+        f"   Entry : `{_fmt(ss.entry)}`",
+        f"   SL    : `{_fmt(ss.sl)}`"
+        f"  (↑ {_pct(ss.sl, ss.entry)} | +{_fmt(abs(ss.sl - ss.entry))})",
+        f"   TP1   : `{_fmt(ss.tp1)}`"
+        f"  (↓ {_pct(ss.entry, ss.tp1)}) – Midpoint",
+        f"   TP2   : `{_fmt(ss.tp2)}`"
+        f"  (↓ {_pct(ss.entry, ss.tp2)}) – Support",
+        f"   R/R: `1:{ss.rr_ratio}`  |  Conf: `{ss.confidence:.0f}%`",
         f"   ⛔ {ss.invalidation}",
         "",
-        "   ─────────────────────────",
-        "   💡 *Lưu ý Range Trading:*",
-        "   • Đặt Limit Order tại Entry, không Market Order",
-        "   • Khi 1 lệnh kích hoạt → Cancel lệnh còn lại",
-        "   • Breakout khỏi range với volume cao → thoát ngay",
+        "   ━━━━━━━━━━━━━━━━━━━━━━━",
+        "   💡 *Lưu ý:*",
+        "   • Đặt 2 Limit Order tại Entry của 2 setup",
+        "   • 1 lệnh khớp → Cancel lệnh còn lại ngay",
+        "   • Breakout range + volume cao → thoát lệnh",
+        "   • KHÔNG vào Market Order khi giá ở giữa range",
     ]
     return lines
 
 
-def _format_directional_setup(ts) -> list:
+def _format_directional_setup(ts, current_price: float) -> list:
     """Format setup LONG/SHORT rõ ràng."""
-    is_long = ts.direction == "LONG"
-    emoji   = "🟢" if is_long else "🔴"
-    sl_dir  = "↓" if is_long else "↑"
-    tp_dir  = "↑" if is_long else "↓"
+    is_long  = ts.direction == "LONG"
+    emoji    = "🟢" if is_long else "🔴"
+    sl_arrow = "↓" if is_long else "↑"
+    tp_arrow = "↑" if is_long else "↓"
 
-    def pct(a, b):
-        return abs(a - b) / b * 100 if b > 1e-12 else 0.0
+    # Khoảng cách entry từ giá hiện tại
+    entry_diff     = current_price - ts.entry if is_long else ts.entry - current_price
+    entry_diff_pct = entry_diff / current_price * 100
+    entry_note     = (
+        f"(↓ {entry_diff_pct:.2f}% từ giá htại – chờ pullback)"
+        if is_long and entry_diff > 0
+        else f"(↑ {entry_diff_pct:.2f}% từ giá htại – chờ pullback)"
+        if not is_long and entry_diff > 0
+        else "(tại giá hiện tại)"
+    )
 
     lines = [
         f"📍 *SETUP GIAO DỊCH*",
@@ -245,24 +286,38 @@ def _format_directional_setup(ts) -> list:
         "",
     ]
 
+    # Hiển thị context S/R nếu có
     if ts.range_high > 0 and ts.range_low > 0:
-        lines += [
-            f"   Resistance: `{_fmt(ts.range_high)}`",
-            f"   Support:    `{_fmt(ts.range_low)}`",
-            "",
-        ]
+        if is_long:
+            lines += [
+                f"   🔴 Resistance: `{_fmt(ts.range_high)}`  "
+                f"(+{_pct(ts.range_high, current_price)})",
+                f"   💰 Giá htại:  `{_fmt(current_price)}`",
+                f"   🟢 Support:   `{_fmt(ts.range_low)}`  "
+                f"(-{_pct(current_price, ts.range_low)})",
+                "",
+            ]
+        else:
+            lines += [
+                f"   🔴 Resistance: `{_fmt(ts.range_high)}`  "
+                f"(+{_pct(ts.range_high, current_price)})",
+                f"   💰 Giá htại:  `{_fmt(current_price)}`",
+                f"   🟢 Support:   `{_fmt(ts.range_low)}`  "
+                f"(-{_pct(current_price, ts.range_low)})",
+                "",
+            ]
 
     lines += [
-        f"   Entry : `{_fmt(ts.entry)}`",
-        f"   SL    : `{_fmt(ts.sl)}`   "
-        f"({sl_dir} {pct(ts.entry, ts.sl):.2f}%)",
+        f"   Entry : `{_fmt(ts.entry)}`  {entry_note}",
+        f"   SL    : `{_fmt(ts.sl)}`  "
+        f"({sl_arrow} {_pct(ts.entry, ts.sl)})",
         f"   TP1   : `{_fmt(ts.tp1)}`  "
-        f"({tp_dir} {pct(ts.tp1, ts.entry):.2f}%)  R/R 1:1",
+        f"({tp_arrow} {_pct(ts.tp1, ts.entry)})  R/R 1:1",
         f"   TP2   : `{_fmt(ts.tp2)}`  "
-        f"({tp_dir} {pct(ts.tp2, ts.entry):.2f}%)  R/R 1:{ts.rr_ratio}",
+        f"({tp_arrow} {_pct(ts.tp2, ts.entry)})  R/R 1:{ts.rr_ratio}",
         "",
-        f"   💡 Đặt Limit Order tại Entry, chờ giá pullback.",
-        f"   Không FOMO nếu giá không về Entry.",
+        "   💡 *Đặt Limit Order tại Entry*",
+        "   Nếu giá không pullback về → bỏ qua, không FOMO",
         "",
         f"   ⛔ *Invalidation:* {ts.invalidation}",
     ]
@@ -270,36 +325,41 @@ def _format_directional_setup(ts) -> list:
 
 
 def _format_wait_setup(ts) -> list:
-    """Khi không có setup tốt."""
-    return [
+    """Khi không có setup tốt – chỉ hiển thị range."""
+    lines = [
         "📍 *SETUP GIAO DỊCH*",
         "",
         "   ⏳ *WAIT – Chưa có setup tốt*",
+        "   Giá đang ở giữa range, chờ về biên.",
         "",
-        f"   Range hiện tại:",
-        f"   🔴 Resistance: `{_fmt(ts.range_high)}`"
-        if ts.range_high > 0 else "",
-        f"   🟢 Support:    `{_fmt(ts.range_low)}`"
-        if ts.range_low > 0 else "",
-        "",
-        "   💡 Chờ giá về biên range rồi mới vào lệnh.",
-        "   Không giao dịch khi giá ở giữa vùng không rõ ràng.",
     ]
+    if ts.range_high > 0 and ts.range_low > 0:
+        lines += [
+            f"   🔴 Resistance: `{_fmt(ts.range_high)}`",
+            f"   🟢 Support:    `{_fmt(ts.range_low)}`",
+            "",
+        ]
+    lines += [
+        "   💡 Chiến lược:",
+        "   • Chờ giá về gần Support → xem xét LONG",
+        "   • Chờ giá về gần Resistance → xem xét SHORT",
+        "   • KHÔNG vào lệnh khi giá ở giữa range",
+    ]
+    return lines
+
 
 # ══════════════════════════════════════════════════════════════════════
-# MTF REPORT (KHUYẾN NGHỊ)
+# MTF REPORT
 # ══════════════════════════════════════════════════════════════════════
 
 def format_mtf_report(mtf) -> str:
-    """Format MTF report hoàn chỉnh."""
-    ts  = mtf.trade_setup
-    dir_text = _direction_emoji(mtf.consensus_direction)
+    ts = mtf.trade_setup
 
     lines = [
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━━",
         f"🎯 *KHUYẾN NGHỊ: {mtf.symbol}*",
         f"━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-        f"",
+        "",
         "📊 *PHÂN TÍCH ĐA KHUNG (MTF)*",
     ]
 
@@ -307,164 +367,120 @@ def format_mtf_report(mtf) -> str:
         if tf not in mtf.reports:
             continue
         r  = mtf.reports[tf]
-        em = "🟢" if r.composite_score > 0.1 else "🔴" if r.composite_score < -0.1 else "⚪"
+        s  = r.composite_score
+        em = "🟢" if s > 0.1 else "🔴" if s < -0.1 else "⚪"
         lines.append(
-            f"   {em} *{tf.upper()}*: {r.trend.signal[:4]}|"
-            f"{r.momentum.signal[:4]}|{r.volume.signal[:4]}"
-            f" → `{r.composite_score:+.2f}`"
+            f"   {em} *{tf.upper()}*: "
+            f"Trend:{r.trend.signal[:4]} │ "
+            f"Mom:{r.momentum.signal[:4]} │ "
+            f"Vol:{r.volume.signal[:4]} → `{s:+.2f}`"
         )
 
     lines += [
-        f"",
+        "",
         f"📈 *ĐIỂM ĐỒNG THUẬN*",
-        f"   Score tổng hợp: {_score_bar(mtf.consensus_score, 12)}",
-        f"   Tỷ lệ đồng thuận: `{mtf.confidence:.0f}%`",
+        f"   Score: {_score_bar(mtf.consensus_score, 12)}",
+        f"   Đồng thuận: `{mtf.confidence:.0f}%`",
         f"   Khung mạnh nhất: `{mtf.best_timeframe.upper()}`",
-        f"",
-        f"🎯 *HƯỚNG KHUYẾN NGHỊ: {dir_text}*",
-        f"",
+        "",
+        f"🎯 *HƯỚNG: {_direction_emoji(mtf.consensus_direction)}*",
+        f"⚡ *RỦI RO: {mtf.risk_level}*",
+        "",
         "📝 *LÝ DO*",
     ]
     for r in mtf.reasons:
         lines.append(f"   {r}")
 
-    lines += [
-        f"",
-        f"⚡ *MỨC ĐỘ RỦI RO: {mtf.risk_level}*",
-        f"",
-    ]
+    lines += [""]
 
-    # Setup
+    # ── Setup ─────────────────────────────────────────────────
     if mtf.consensus_direction == "NEUTRAL" and mtf.neutral_range:
-        lines += _format_neutral_setup(mtf.neutral_range)
+        lines += _format_mtf_neutral_setup(mtf.neutral_range)
+    elif mtf.consensus_direction in ("LONG", "SHORT"):
+        primary_price = list(mtf.reports.values())[0].current_price
+        lines += _format_directional_setup(ts, primary_price)
     else:
-        lines += _format_directional_setup(ts)
+        lines += _format_wait_setup(ts)
 
     lines += [
-        f"",
-        f"⛔ *ĐIỀU KIỆN VÔ HIỆU HÓA*",
-        f"   {mtf.invalidation}",
-        f"",
+        "",
+        f"⛔ *INVALIDATION:* {mtf.invalidation}",
+        "",
         "✅ *CHECKLIST*",
     ]
     for item in mtf.checklist:
         lines.append(f"   {item}")
 
     lines += [
-        f"",
+        "",
         "━━━━━━━━━━━━━━━━━━━━━━━━━━━",
         "⚠️ _Chỉ mang tính tham khảo kỹ thuật._",
-        "_Luôn quản lý rủi ro – tối đa 1-2% tài khoản/lệnh._",
+        "_Tối đa 1-2% tài khoản/lệnh._",
     ]
     return "\n".join(lines)
 
 
-def _format_directional_setup(ts: TradeSetup) -> list:
-    """Format setup LONG/SHORT với Entry logic."""
-    is_long  = ts.direction == "LONG"
-    close    = ts.entry  # entry đã được tính, không phải giá hiện tại nữa
-    sl_pct   = abs(ts.entry - ts.sl)    / ts.entry * 100
-    tp1_pct  = abs(ts.tp1   - ts.entry) / ts.entry * 100
-    tp2_pct  = abs(ts.tp2   - ts.entry) / ts.entry * 100
-    sl_dir   = "↓" if is_long else "↑"
-    tp_dir   = "↑" if is_long else "↓"
-    emoji    = "🟢" if is_long else "🔴"
+def _format_mtf_neutral_setup(nr) -> list:
+    """Format NeutralRange cho MTF report."""
+    current   = nr.current_price
+    dist_sup  = (current - nr.range_low)  / current * 100
+    dist_res  = (nr.range_high - current) / current * 100
+    range_pct = (nr.range_high - nr.range_low) / current * 100
 
-    lines = [
-        f"📍 *SETUP GIAO DỊCH*",
-        f"   {emoji} *{ts.direction}*",
-        f"",
-    ]
+    bar_width = 18
+    filled    = min(round(nr.price_position * bar_width), bar_width - 1)
+    bar       = "▱" * filled + "◆" + "▱" * (bar_width - 1 - filled)
 
-    # Hiển thị range context nếu có
-    if ts.range_high > 0 and ts.range_low > 0:
-        if is_long:
-            lines += [
-                f"   Resistance:  `{_fmt(ts.range_high)}`  ← TP zone",
-                f"   Entry:       `{_fmt(ts.entry)}`  ← Vùng pullback",
-                f"   Support:     `{_fmt(ts.range_low)}`  ← SL zone",
-                f"",
-            ]
-        else:
-            lines += [
-                f"   Resistance:  `{_fmt(ts.range_high)}`  ← SL zone",
-                f"   Entry:       `{_fmt(ts.entry)}`  ← Vùng pullback",
-                f"   Support:     `{_fmt(ts.range_low)}`  ← TP zone",
-                f"",
-            ]
+    long_status = (
+        "🟢 *SẴN SÀNG*" if dist_sup <= 0.5
+        else f"⏳ Còn ↓{dist_sup:.2f}%"
+    )
+    short_status = (
+        "🔴 *SẴN SÀNG*" if dist_res <= 0.5
+        else f"⏳ Còn ↑{dist_res:.2f}%"
+    )
 
-    lines += [
-        f"   Entry:  `{_fmt(ts.entry)}`",
-        f"   SL:     `{_fmt(ts.sl)}`  ({sl_dir} {sl_pct:.2f}%)",
-        f"   TP1:    `{_fmt(ts.tp1)}`  ({tp_dir} {tp1_pct:.2f}%)",
-        f"   TP2:    `{_fmt(ts.tp2)}`  ({tp_dir} {tp2_pct:.2f}%)",
-        f"   R/R:    `1:{ts.rr_ratio}`",
-        f"   Confidence: `{ts.confidence:.1f}%`",
-    ]
-
-    # Thêm note về entry
-    lines += [
-        f"",
-        f"   💡 *Entry không phải giá hiện tại:*",
-        f"   Đặt Limit Order tại Entry, chờ giá pullback.",
-        f"   Nếu giá không retrace → bỏ qua, không FOMO.",
-    ]
-
-    return lines
-
-
-def _format_neutral_setup(nr) -> list:
-    """Format NeutralRange object – hiển thị đầy đủ thông tin."""
-
-    # Indicator vị trí giá
-    pos_pct = nr.price_position * 100
-    if pos_pct <= 35:
-        pos_label = f"🔽 Gần biên DƯỚI ({pos_pct:.0f}%)"
-    elif pos_pct >= 65:
-        pos_label = f"🔼 Gần biên TRÊN ({pos_pct:.0f}%)"
-    else:
-        pos_label = f"➡️ Giữa range ({pos_pct:.0f}%)"
-
-    # Progress bar vị trí giá trong range
-    bar_width = 20
-    filled    = round(nr.price_position * bar_width)
-    bar       = "─" * filled + "●" + "─" * (bar_width - filled)
-
-    lines = [
-        "📍 *SETUP RANGE TRADING*",
-        f"",
-        f"   Biên trên (Resistance): `{_fmt(nr.range_high)}`",
-        f"   [{bar}]",
-        f"   Giá hiện tại:           `{_fmt(nr.current_price)}`  {pos_label}",
-        f"   [{' ' * bar_width}]",
-        f"   Biên dưới (Support):    `{_fmt(nr.range_low)}`",
-        f"   Độ rộng range: `{nr.range_width_pct:.2f}%`",
-        f"",
-    ]
-
-    # Khuyến nghị ưu tiên
     if nr.recommended == "LONG":
-        lines.append("   ✅ *Ưu tiên: LONG* (giá gần biên dưới)")
+        priority = "✅ Ưu tiên *LONG*"
     elif nr.recommended == "SHORT":
-        lines.append("   ✅ *Ưu tiên: SHORT* (giá gần biên trên)")
+        priority = "✅ Ưu tiên *SHORT*"
     else:
-        lines.append("   ⏳ *Khuyến nghị: WAIT* (giá ở giữa range)")
-        lines.append("   💡 Chờ giá về biên range rồi mới vào lệnh")
+        priority = "⚖️ Cân bằng 2 chiều"
 
-    lines += [
-        f"",
-        f"   🟢 *LONG – Vào tại biên dưới:*",
-        f"      Entry: `{_fmt(nr.long_entry)}`  (ngay trên Support)",
-        f"      SL:    `{_fmt(nr.long_sl)}`   (dưới Support)",
-        f"      TP1:   `{_fmt(nr.long_tp1)}`  (giữa range)",
-        f"      TP2:   `{_fmt(nr.long_tp2)}`  (gần Resistance)",
-        f"      R/R:   `1:{nr.long_rr}`",
-        f"",
-        f"   🔴 *SHORT – Vào tại biên trên:*",
-        f"      Entry: `{_fmt(nr.short_entry)}`  (ngay dưới Resistance)",
-        f"      SL:    `{_fmt(nr.short_sl)}`   (trên Resistance)",
-        f"      TP1:   `{_fmt(nr.short_tp1)}`  (giữa range)",
-        f"      TP2:   `{_fmt(nr.short_tp2)}`  (gần Support)",
-        f"      R/R:   `1:{nr.short_rr}`",
+    return [
+        "📍 *SETUP – RANGE TRADING (MTF)*",
+        "",
+        f"   🔴 Resistance : `{_fmt(nr.range_high)}`  (+{dist_res:.2f}%)",
+        f"   [{bar}]  {nr.price_position*100:.0f}%",
+        f"   💰 Giá htại  : `{_fmt(current)}`",
+        f"   🟢 Support   : `{_fmt(nr.range_low)}`  (-{dist_sup:.2f}%)",
+        f"   Range: `{range_pct:.2f}%` | Mid: `{_fmt(nr.range_mid)}`",
+        "",
+        f"   {priority}",
+        "",
+        "   ━━━━━━━━━━━━━━━━━━━━━━━",
+        f"   🟢 *LONG*  |  {long_status}",
+        f"   Entry : `{_fmt(nr.long_entry)}`",
+        f"   SL    : `{_fmt(nr.long_sl)}`"
+        f"  (↓ {_pct(nr.long_entry, nr.long_sl)})",
+        f"   TP1   : `{_fmt(nr.long_tp1)}`"
+        f"  (↑ {_pct(nr.long_tp1, nr.long_entry)}) – Mid",
+        f"   TP2   : `{_fmt(nr.long_tp2)}`"
+        f"  (↑ {_pct(nr.long_tp2, nr.long_entry)}) – Resistance",
+        f"   R/R: `1:{nr.long_rr}`",
+        "",
+        "   ━━━━━━━━━━━━━━━━━━━━━━━",
+        f"   🔴 *SHORT*  |  {short_status}",
+        f"   Entry : `{_fmt(nr.short_entry)}`",
+        f"   SL    : `{_fmt(nr.short_sl)}`"
+        f"  (↑ {_pct(nr.short_sl, nr.short_entry)})",
+        f"   TP1   : `{_fmt(nr.short_tp1)}`"
+        f"  (↓ {_pct(nr.short_entry, nr.short_tp1)}) – Mid",
+        f"   TP2   : `{_fmt(nr.short_tp2)}`"
+        f"  (↓ {_pct(nr.short_entry, nr.short_tp2)}) – Support",
+        f"   R/R: `1:{nr.short_rr}`",
+        "",
+        "   ━━━━━━━━━━━━━━━━━━━━━━━",
+        "   💡 Đặt 2 Limit Order tại 2 biên",
+        "   1 lệnh khớp → Cancel lệnh còn lại ngay",
     ]
-    return lines
